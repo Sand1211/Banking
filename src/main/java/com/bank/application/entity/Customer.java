@@ -46,7 +46,7 @@ public class Customer {
 	@Column(name = "mobile_number")
 	private String mobileNumber;
 
-	@Column(name = "email")
+	@Column(name = "customer_email")
 	private String email;
 
 	@NotNull

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+<body>
+<br><br>Your Bank account was Successfully created. 
+Please use the user id and password below to login: This temporary password will expire in 7 days.
+<br><br>
+<div>User ID :<b th:text="${customer.email}"></b><br>
+Password :<b th:text="${customer.password}"></b><br>
+
+<button style=\"background-color: #fbc403;padding:4px 24px\" type=\"button\"> Log In </button></a><br><br>
+
+Please contact us at customer support if you have any further questions.<br><td style=\"font-family: Source Sans Pro;font-weight: normal;color:#000;font-size:15px;padding-right:30px;\">
+<b>Bank Support</b><br>&#9743;
+(844) 689-1025<br>&#9993;
+sandeepku11295@gmail.com
+</div>
+</body>
+</html>

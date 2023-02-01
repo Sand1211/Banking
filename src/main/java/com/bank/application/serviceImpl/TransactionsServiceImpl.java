@@ -112,7 +112,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 	public String depositAmount(float amount, Integer accountNumber) {
 		Optional<Accounts> response = accountRepository.findById(accountNumber);
 		if (!response.isPresent()) {
-			throw new BusinessException(" Account doesnot exists "+accountNumber);
+			throw new BusinessException(" Account doesnot exists " + accountNumber);
 		} else if (response.get().getAccountStatus().equals("INACTIVE")) {
 			throw new BusinessException("Account is not active so can not send amount");
 		} else {
