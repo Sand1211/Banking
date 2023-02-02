@@ -3,6 +3,8 @@ package com.bank.application.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.bank.application.exceptions.BusinessException;
 import com.bank.application.repository.AccountRepository;
 import com.bank.application.repository.CustomerRepository;
 import com.bank.application.service.CustomerService;
+import com.bank.application.util.PasswordUtil;
 
 @Service
 //@Profile(value = {"dev","local","qa","prod"})
@@ -24,11 +27,20 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	AccountRepository accountRepository;
 
+	@Autowired
+	CustomerEmailServiceImpl emailService;
+
 	@Override
 	public Customer saveCustomerDetails(Customer customer) {
+		generatePassword(customer);
 		Customer customerResponse = customerRepository.save(customer);
 		if (customerResponse == null) {
 			return null;
+		}
+		try {
+			emailService.sendCustomerMail(customer);
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 		return customerResponse;
 	}
@@ -49,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer updateCustomerDetails(Customer customer) {
-		Customer save=null;
+		Customer save = null;
 		Optional<Customer> findById = customerRepository.findById(customer.getCifNumber());
 		if (findById == null) {
 			throw new BusinessException("Customer does not exist with this ");
@@ -63,10 +75,15 @@ public class CustomerServiceImpl implements CustomerService {
 			cust.setUserName(customer.getUserName());
 			cust.setPassword(customer.getPassword());
 			cust.setAddress(customer.getAddress());
-			 save = customerRepository.save(cust);
+			save = customerRepository.save(cust);
 		}
 
 		return save;
+	}
+
+	private void generatePassword(Customer customer) {
+		String genPwd = PasswordUtil.generatePswd(8);
+		customer.setPassword(genPwd);
 	}
 
 }
